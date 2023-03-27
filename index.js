@@ -7,14 +7,18 @@ const cors = require("cors");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const hostname = "0.0.0.0";
+const publicDirectoryPath = path.join(__dirname, "./public");
 
 const io = new Server(server);
+
+
+app.use(express.static(publicDirectoryPath));
 
 // CORS-enabled
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname + "/views/index.html"));
+  res.sendFile(path.join(__dirname + "/public/index.html"));
 });
 
 io.on("connection", (socket) => {
@@ -37,6 +41,6 @@ io.on("connection", (socket) => {
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, hostname, () => {
-  
+
   console.log("Chat is Runining");
 });
